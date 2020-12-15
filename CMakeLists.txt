@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
-
+cmake_minimum_required(VERSION 3.19)
 project(MyProject)
 
+find_package(PythonInterp REQUIRED)
 add_custom_command(
   OUTPUT index.h 
-  COMMAND python ${MyProject_SOURCE_DIR}/A/preparing.py ${MyProject_SOURCE_DIR}
+  COMMAND ${PYTHON_EXECUTABLE} ${MyProject_SOURCE_DIR}/A/preparing.py ${MyProject_SOURCE_DIR}
   DEPENDS A/preparing.py
   COMMENT "Generating file from json"
 )
@@ -20,3 +20,4 @@ add_dependencies(MyProject RunGenerator)
 
 add_subdirectory(B)
 target_link_libraries(MyProject lib)
+target_include_directories(MyProject PRIVATE ${PROJECT_SOURCE_DIR} ${PROJECT_BINARY_DIR})
